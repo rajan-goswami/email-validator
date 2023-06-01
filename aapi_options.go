@@ -7,14 +7,14 @@ import (
 type AbstractAPIOption struct {
 	baseURL    *url.URL
 	apiVersion string
-	rate       APIRate
+	rate       AARate
 	blocking   bool
 }
 
 type AbstractAPIOptionFunc func(*AbstractAPIOption) error
 
 // WithAPIRate is used to specific rate limit on http client
-func WithAPIRate(rate APIRate) AbstractAPIOptionFunc {
+func WithAPIRate(rate AARate) AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
 		opts.rate = rate
 		return nil

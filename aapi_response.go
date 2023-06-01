@@ -1,10 +1,10 @@
 package emailvalidator
 
 type AAValidateEmailResp struct {
-	Email          string  `json:"email"`
-	Autocorrect    string  `json:"autocorrect"`
-	Deliverability string  `json:"deliverability"`
-	QualityScore   float64 `json:"quality_score"`
+	Email          string `json:"email"`
+	Autocorrect    string `json:"autocorrect"`
+	Deliverability string `json:"deliverability"`
+	QualityScore   string `json:"quality_score"`
 	IsValidFormat  struct {
 		Value bool   `json:"value"`
 		Text  string `json:"text"`
