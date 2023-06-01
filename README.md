@@ -1,14 +1,19 @@
 # email-validator
 Go library to verify email addresses through Email verification API provided by 3rd party services as abstractApi, hunter.io etc.
 
-## How to run
+## abstract.com client
+### Build
 ```bash
-SET API_KEY=""
-SET EMAIL=""
-go run cmd/aapi_validate/main.go
+cd cmd/aapi_validate
+go build
 ```
 
-## Services Supported
-- AbstractAPI
-- Hunter.io
-   
+### Run
+```bash
+cd cmd/aapi_validate
+./aapi_validate validate -apiKey API_KEY -email EMAIL
+```
+
+## hunter.io client
+> coming soon
+
