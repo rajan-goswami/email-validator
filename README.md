@@ -15,5 +15,15 @@ cd cmd/aapi_validate
 ```
 
 ## hunter.io client
-> coming soon
+### Build
+```bash
+cd cmd/hunter_validate
+go build
+```
+
+### Run
+```bash
+cd cmd/hunter_validate
+./hunter_validate validate -apiKey API_KEY -email EMAIL
+```
 

@@ -2,7 +2,6 @@ package emailvalidator
 
 import (
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -14,12 +13,6 @@ import (
 const (
 	defaultAbstractAPIURL     = "https://emailvalidation.abstractapi.com"
 	defaultAbstractAPIVersion = "/v1"
-)
-
-var (
-	ErrEmptyAPIKey     = errors.New("empty api key provided")
-	ErrEmptyBaseURL    = errors.New("empty baseURL for abstractApi service")
-	ErrEmptyAPIVersion = errors.New("empty api version for abstractApi service")
 )
 
 // AbstractAPIClient defines http client for making AbstractAPI's REST calls
@@ -35,7 +28,7 @@ func NewAbstractAPIClient(apiKey string, options ...AbstractAPIOptionFunc) (*Abs
 		return nil, ErrEmptyAPIKey
 	}
 
-	opts, err := ParseOptions(options...)
+	opts, err := ParseAbstractAPIOptions(options...)
 	if err != nil {
 		return nil, err
 	}

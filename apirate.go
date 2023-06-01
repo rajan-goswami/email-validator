@@ -29,3 +29,8 @@ var (
 	// AbstractAPIGrowth represents API Rate limit under growth plan
 	AbstractAPIGrowth = AARate{Interval: time.Second, Limit: 100}
 )
+
+var (
+	// HunterAPIRate represents API Rate limit for email verify API
+	HunterAPIRate = HunterRate{Interval: time.Second, Limit: 10}
+)

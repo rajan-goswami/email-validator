@@ -13,24 +13,24 @@ type AbstractAPIOption struct {
 
 type AbstractAPIOptionFunc func(*AbstractAPIOption) error
 
-// WithAPIRate is used to specific rate limit on http client
-func WithAPIRate(rate AARate) AbstractAPIOptionFunc {
+// WithAbstractAPIRate is used to specific rate limit on http client
+func WithAbstractAPIRate(rate AARate) AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
 		opts.rate = rate
 		return nil
 	}
 }
 
-// WithBlocking is used to direct rateLimiter to wait until rate limit interval ends, if rate limit is reached.
-func WithBlocking() AbstractAPIOptionFunc {
+// WithAbstractAPIBlocking is used to direct rateLimiter to wait until rate limit interval ends, if rate limit is reached.
+func WithAbstractAPIBlocking() AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
 		opts.blocking = true
 		return nil
 	}
 }
 
-// WithBaseURL is used to set base url of abstract api service
-func WithBaseURL(url *url.URL) AbstractAPIOptionFunc {
+// WithAbstractAPIBaseURL is used to set base url of abstract api service
+func WithAbstractAPIBaseURL(url *url.URL) AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
 		if url == nil || url.Path == "" {
 			return ErrEmptyBaseURL
@@ -40,8 +40,8 @@ func WithBaseURL(url *url.URL) AbstractAPIOptionFunc {
 	}
 }
 
-// WithAPIVersion is used to set API version of abstract api
-func WithAPIVersion(version string) AbstractAPIOptionFunc {
+// WithAbstractAPIVersion is used to set API version of abstract api
+func WithAbstractAPIVersion(version string) AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
 		if version == "" {
 			return ErrEmptyBaseURL
@@ -51,7 +51,7 @@ func WithAPIVersion(version string) AbstractAPIOptionFunc {
 	}
 }
 
-func ParseOptions(options ...AbstractAPIOptionFunc) (*AbstractAPIOption, error) {
+func ParseAbstractAPIOptions(options ...AbstractAPIOptionFunc) (*AbstractAPIOption, error) {
 	opts := &AbstractAPIOption{
 		rate:     AbstractAPIFree,
 		blocking: false,
