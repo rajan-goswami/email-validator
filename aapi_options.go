@@ -2,8 +2,6 @@ package emailvalidator
 
 import (
 	"net/url"
-
-	"github.com/r-goswami/email-validator/internal"
 )
 
 type AbstractAPIOption struct {
@@ -55,10 +53,7 @@ func WithAPIVersion(version string) AbstractAPIOptionFunc {
 
 func ParseOptions(options ...AbstractAPIOptionFunc) (*AbstractAPIOption, error) {
 	opts := &AbstractAPIOption{
-		rate: APIRate{
-			Interval: internal.DefaultInterval,
-			Limit:    internal.DefaultLimit,
-		},
+		rate:     AbstractAPIFree,
 		blocking: false,
 	}
 
