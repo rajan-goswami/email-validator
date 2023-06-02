@@ -31,6 +31,7 @@ type HunterValidateEmailResp struct {
 	} `json:"meta"`
 }
 
+// IsValid checks if email is valid
 func (resp *HunterValidateEmailResp) IsValid() bool {
 	return resp.Data.Status == "valid"
 }

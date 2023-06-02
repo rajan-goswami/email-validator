@@ -4,6 +4,7 @@ import (
 	"net/url"
 )
 
+// HunterAPIOption specifies options for Hunter.io API client
 type HunterAPIOption struct {
 	baseURL    *url.URL
 	apiVersion string
@@ -11,6 +12,7 @@ type HunterAPIOption struct {
 	blocking   bool
 }
 
+// HunterAPIOptionFunc is a function type for setting Hunter.io API client options
 type HunterAPIOptionFunc func(*HunterAPIOption) error
 
 // WithHunterAPIRate is used to specific rate limit on http client
@@ -51,7 +53,7 @@ func WithHunterAPIVersion(version string) HunterAPIOptionFunc {
 	}
 }
 
-func ParseHunterAPIOptions(options ...HunterAPIOptionFunc) (*HunterAPIOption, error) {
+func parseHunterAPIOptions(options ...HunterAPIOptionFunc) (*HunterAPIOption, error) {
 	opts := &HunterAPIOption{
 		rate:     HunterAPIRate,
 		blocking: false,

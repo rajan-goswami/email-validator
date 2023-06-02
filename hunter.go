@@ -29,7 +29,7 @@ func NewHunterAPIClient(apiKey string, options ...HunterAPIOptionFunc) (*HunterA
 		return nil, ErrEmptyAPIKey
 	}
 
-	opts, err := ParseHunterAPIOptions(options...)
+	opts, err := parseHunterAPIOptions(options...)
 	if err != nil {
 		return nil, err
 	}
@@ -67,6 +67,7 @@ func NewHunterAPIClient(apiKey string, options ...HunterAPIOptionFunc) (*HunterA
 	}, nil
 }
 
+// Validate validates email address and returns hunter api's response
 func (hc *HunterAPIClient) Validate(email string) (*HunterValidateEmailResp, error) {
 	// Add Query params
 	params := url.Values{}

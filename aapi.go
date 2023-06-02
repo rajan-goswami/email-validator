@@ -28,7 +28,7 @@ func NewAbstractAPIClient(apiKey string, options ...AbstractAPIOptionFunc) (*Abs
 		return nil, ErrEmptyAPIKey
 	}
 
-	opts, err := ParseAbstractAPIOptions(options...)
+	opts, err := parseAbstractAPIOptions(options...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,6 +66,7 @@ func NewAbstractAPIClient(apiKey string, options ...AbstractAPIOptionFunc) (*Abs
 	}, nil
 }
 
+// Validate validates email address and returns abstract API's response
 func (ac *AbstractAPIClient) Validate(email string) (*AAValidateEmailResp, error) {
 	// Add Query params
 	params := url.Values{}

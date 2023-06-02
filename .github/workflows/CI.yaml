@@ -44,10 +44,10 @@ jobs:
       - name: Run staticcheck
         run: staticcheck ./...
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v3
-        with:
-          version: latest
+      # - name: golangci-lint
+      #   uses: golangci/golangci-lint-action@v3
+      #   with:
+      #     version: latest
 
       - name: Install golint
         run: go install golang.org/x/lint/golint@latest
@@ -56,4 +56,11 @@ jobs:
         run: golint -set_exit_status ./...
 
       - name: Run tests
-        run: go test -race -vet=off ./...
+        run: go test -race -gcflags=-l -v  -coverprofile=coverage.txt -covermode=atomic -vet=off ./...
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true

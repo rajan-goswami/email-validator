@@ -4,6 +4,7 @@ import (
 	"net/url"
 )
 
+// AbstractAPIOption specifies options for AbstractAPI client
 type AbstractAPIOption struct {
 	baseURL    *url.URL
 	apiVersion string
@@ -11,6 +12,7 @@ type AbstractAPIOption struct {
 	blocking   bool
 }
 
+// AbstractAPIOptionFunc is a function type for setting AbstractAPI client options
 type AbstractAPIOptionFunc func(*AbstractAPIOption) error
 
 // WithAbstractAPIRate is used to specific rate limit on http client
@@ -51,7 +53,7 @@ func WithAbstractAPIVersion(version string) AbstractAPIOptionFunc {
 	}
 }
 
-func ParseAbstractAPIOptions(options ...AbstractAPIOptionFunc) (*AbstractAPIOption, error) {
+func parseAbstractAPIOptions(options ...AbstractAPIOptionFunc) (*AbstractAPIOption, error) {
 	opts := &AbstractAPIOption{
 		rate:     AbstractAPIFree,
 		blocking: false,
