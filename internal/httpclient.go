@@ -42,9 +42,8 @@ func NewClient(options ...func(*Option)) *HTTPClient {
 // If blocking is enabled and rate limit is reached, it will wait until rate limit interval ends while making api call.
 // Otherwise it returns ErrorRateLimitExceeded
 func (c *HTTPClient) Do(req *http.Request) (*http.Response, error) {
-	ctx := context.Background()
-
 	if c.options.blocking {
+		ctx := context.Background()
 		err := c.rateLimiter.Wait(ctx) // This is a blocking call. Honors the rate limit
 		if err != nil {
 			return nil, err

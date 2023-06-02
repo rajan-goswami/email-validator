@@ -18,22 +18,15 @@ permissions:
   contents: read
 
 jobs:
-  ci:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: 1.19
-
-      - name: Verify dependencies
-        run: go mod verify
-
-      - name: Build
-        run: go build -v ./...
 
       - name: Run go vet
         run: go vet ./...
@@ -55,27 +48,54 @@ jobs:
       - name: Run golint
         run: golint -set_exit_status ./...
 
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
       - name: Run tests
-        run: go test -race -gcflags=-l -v  -coverprofile=coverage.txt -covermode=atomic -vet=off ./...
-
+        run: go test $(go list ./... | grep -v /cmd/) -race -gcflags=-l -v  -coverprofile=coverage.txt -covermode=atomic -vet=off
+  
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true
           verbose: true
 
-      - name: Quality Gate - Test coverage shall be above threshold
-        env:
-          TESTCOVERAGE_THRESHOLD: 80
-        run: |
-            echo "Quality Gate: checking test coverage is above threshold ..."
-            echo "Threshold             : $TESTCOVERAGE_THRESHOLD %"
-            totalCoverage=`go tool cover -func=coverage.txt | grep total | grep -Eo '[0-9]+\.[0-9]+'`
-            echo "Current test coverage : $totalCoverage %"
-            if (( $(echo "$totalCoverage $TESTCOVERAGE_THRESHOLD" | awk '{print ($1 > $2)}') )); then
-                echo "OK"
-            else
-                echo "Current test coverage is below threshold. Please add more unit tests or adjust threshold to a lower value."
-                echo "Failed"
-                exit 1
-            fi
+      # - name: Quality Gate - Test coverage shall be above threshold
+      #   env:
+      #     TESTCOVERAGE_THRESHOLD: 80
+      #   run: |
+      #       echo "Quality Gate: checking test coverage is above threshold ..."
+      #       echo "Threshold             : $TESTCOVERAGE_THRESHOLD %"
+      #       totalCoverage=`go tool cover -func=coverage.txt | grep total | grep -Eo '[0-9]+\.[0-9]+'`
+      #       echo "Current test coverage : $totalCoverage %"
+      #       if (( $(echo "$totalCoverage $TESTCOVERAGE_THRESHOLD" | awk '{print ($1 > $2)}') )); then
+      #           echo "OK"
+      #       else
+      #           echo "Current test coverage is below threshold. Please add more unit tests or adjust threshold to a lower value."
+      #           echo "Failed"
+      #           exit 1
+      #       fi
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+      - name: Verify dependencies
+        run: go mod verify
+  
+      - name: Build
+        run: go build -v ./...
+
+

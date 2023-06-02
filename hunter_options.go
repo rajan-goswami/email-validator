@@ -34,7 +34,7 @@ func WithHunterAPIBlocking() HunterAPIOptionFunc {
 // WithHunterAPIBaseURL is used to set base url of hunter api service
 func WithHunterAPIBaseURL(url *url.URL) HunterAPIOptionFunc {
 	return func(opts *HunterAPIOption) error {
-		if url == nil || url.Path == "" {
+		if url == nil || url.String() == "" {
 			return ErrEmptyBaseURL
 		}
 		opts.baseURL = url
@@ -46,7 +46,7 @@ func WithHunterAPIBaseURL(url *url.URL) HunterAPIOptionFunc {
 func WithHunterAPIVersion(version string) HunterAPIOptionFunc {
 	return func(opts *HunterAPIOption) error {
 		if version == "" {
-			return ErrEmptyBaseURL
+			return ErrEmptyAPIVersion
 		}
 		opts.apiVersion = version
 		return nil
@@ -54,9 +54,13 @@ func WithHunterAPIVersion(version string) HunterAPIOptionFunc {
 }
 
 func parseHunterAPIOptions(options ...HunterAPIOptionFunc) (*HunterAPIOption, error) {
+	defAPIURL, _ := url.Parse(defaultHunterAPIURL)
+
 	opts := &HunterAPIOption{
-		rate:     HunterAPIRate,
-		blocking: false,
+		rate:       HunterAPIRate,
+		blocking:   false,
+		baseURL:    defAPIURL,
+		apiVersion: defaultHunterAPIVersion,
 	}
 
 	for _, o := range options {

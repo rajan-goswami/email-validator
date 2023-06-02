@@ -34,7 +34,7 @@ func WithAbstractAPIBlocking() AbstractAPIOptionFunc {
 // WithAbstractAPIBaseURL is used to set base url of abstract api service
 func WithAbstractAPIBaseURL(url *url.URL) AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
-		if url == nil || url.Path == "" {
+		if url == nil || url.String() == "" {
 			return ErrEmptyBaseURL
 		}
 		opts.baseURL = url
@@ -46,7 +46,7 @@ func WithAbstractAPIBaseURL(url *url.URL) AbstractAPIOptionFunc {
 func WithAbstractAPIVersion(version string) AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
 		if version == "" {
-			return ErrEmptyBaseURL
+			return ErrEmptyAPIVersion
 		}
 		opts.apiVersion = version
 		return nil
@@ -54,9 +54,13 @@ func WithAbstractAPIVersion(version string) AbstractAPIOptionFunc {
 }
 
 func parseAbstractAPIOptions(options ...AbstractAPIOptionFunc) (*AbstractAPIOption, error) {
+	defAPIURL, _ := url.Parse(defaultAbstractAPIURL)
+
 	opts := &AbstractAPIOption{
-		rate:     AbstractAPIFree,
-		blocking: false,
+		rate:       AbstractAPIFree,
+		blocking:   false,
+		baseURL:    defAPIURL,
+		apiVersion: defaultAbstractAPIVersion,
 	}
 
 	for _, o := range options {
