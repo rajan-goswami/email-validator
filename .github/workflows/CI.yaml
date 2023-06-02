@@ -56,7 +56,7 @@ jobs:
         run: golint -set_exit_status ./...
 
       - name: Run tests
-        run: go test -race -gcflags=-l -v  -coverprofile=coverage.txt -covermode=atomic -vet=off ./...
+        run: go test $(go list ./... | grep -v /cmd/) -race -gcflags=-l -v  -coverprofile=coverage.txt -covermode=atomic -vet=off
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

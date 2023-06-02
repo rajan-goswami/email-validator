@@ -1,6 +1,10 @@
 package internal
 
 import (
+	"errors"
+	"io"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 	"time"
 
@@ -52,5 +56,95 @@ func TestNewClient(t *testing.T) {
 			}
 			assert.EqualValues(t, tt.expectedOptions, hc.options)
 		})
+	}
+}
+
+func TestDoWithNoLimit(t *testing.T) {
+	// Start a local HTTP server
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		// Send response to be tested
+		rw.Write([]byte(`OK`))
+		rw.WriteHeader(http.StatusOK)
+	}))
+	// Close the server when test finishes
+	defer server.Close()
+
+	httpClient := NewClient()
+	httpClient.client = server.Client()
+
+	for i := 0; i < 5; i++ {
+		request, err := http.NewRequest(http.MethodGet, server.URL, nil)
+		assert.NoError(t, err)
+
+		response, err := httpClient.Do(request)
+		assert.NoError(t, err)
+
+		body, err := io.ReadAll(response.Body)
+		assert.NoError(t, err)
+
+		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, []byte(`OK`), body)
+	}
+}
+
+func TestDoWithLimit_NonBlocking(t *testing.T) {
+	// Start a local HTTP server
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		// Send response to be tested
+		rw.Write([]byte(`OK`))
+		rw.WriteHeader(http.StatusOK)
+	}))
+	// Close the server when test finishes
+	defer server.Close()
+
+	httpClient := NewClient(WithLimitInterval(time.Second*2), WithLimit(5))
+	httpClient.client = server.Client()
+
+	for i := 0; i < 6; i++ {
+		request, err := http.NewRequest(http.MethodGet, server.URL, nil)
+		assert.NoError(t, err)
+
+		if i < 5 {
+			response, err := httpClient.Do(request)
+			assert.NoError(t, err)
+
+			body, err := io.ReadAll(response.Body)
+			assert.NoError(t, err)
+
+			assert.Equal(t, http.StatusOK, response.StatusCode)
+			assert.Equal(t, []byte(`OK`), body)
+		} else {
+			response, err := httpClient.Do(request)
+			assert.Nil(t, response)
+			assert.True(t, errors.Is(err, ErrorRateLimitExceeded))
+		}
+	}
+}
+
+func TestDoWithLimit_Blocking(t *testing.T) {
+	// Start a local HTTP server
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		// Send response to be tested
+		rw.Write([]byte(`OK`))
+		rw.WriteHeader(http.StatusOK)
+	}))
+	// Close the server when test finishes
+	defer server.Close()
+
+	httpClient := NewClient(WithBlocking(), WithLimitInterval(time.Second*1), WithLimit(5))
+	httpClient.client = server.Client()
+
+	for i := 0; i < 6; i++ {
+		request, err := http.NewRequest(http.MethodGet, server.URL, nil)
+		assert.NoError(t, err)
+
+		response, err := httpClient.Do(request)
+		assert.NoError(t, err)
+
+		body, err := io.ReadAll(response.Body)
+		assert.NoError(t, err)
+
+		assert.Equal(t, http.StatusOK, response.StatusCode)
+		assert.Equal(t, []byte(`OK`), body)
 	}
 }

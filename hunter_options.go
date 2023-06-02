@@ -46,7 +46,7 @@ func WithHunterAPIBaseURL(url *url.URL) HunterAPIOptionFunc {
 func WithHunterAPIVersion(version string) HunterAPIOptionFunc {
 	return func(opts *HunterAPIOption) error {
 		if version == "" {
-			return ErrEmptyBaseURL
+			return ErrEmptyAPIVersion
 		}
 		opts.apiVersion = version
 		return nil
