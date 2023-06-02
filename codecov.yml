@@ -4,3 +4,5 @@ coverage:
       default:
         target: 0%  # auto compares coverage to the previous base commit
 
+ignore:
+    - "cmd"
