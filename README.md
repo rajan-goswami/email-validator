@@ -1,4 +1,5 @@
 [![CI](https://github.com/r-goswami/email-validator/actions/workflows/CI.yaml/badge.svg)](https://github.com/r-goswami/email-validator/actions/workflows/CI.yaml)
+[![codecov](https://codecov.io/gh/r-goswami/email-validator/branch/main/graph/badge.svg?token=VAB3KVPV1P)](https://codecov.io/gh/r-goswami/email-validator)
 
 # email-validator
 Go library to verify email addresses through Email verification API provided by 3rd party services as abstractApi, hunter.io etc.
