@@ -7,7 +7,10 @@ type apiRate struct {
 	Limit    int
 }
 
+// AARate is a type alias for AbstractAPI rate limit configuration
 type AARate apiRate
+
+// HunterRate is a type alias for Hunter API rate limit configuration
 type HunterRate apiRate
 
 var (

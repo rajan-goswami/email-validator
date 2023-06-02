@@ -1,5 +1,6 @@
 package emailvalidator
 
+// AAValidateEmailResp is returned by Abstract API's email verify API
 type AAValidateEmailResp struct {
 	Email          string `json:"email"`
 	Autocorrect    string `json:"autocorrect"`
@@ -35,6 +36,7 @@ type AAValidateEmailResp struct {
 	} `json:"is_smtp_valid"`
 }
 
+// IsValid checks if email is valid
 func (resp *AAValidateEmailResp) IsValid() bool {
 	return resp.IsValidFormat.Value
 }
