@@ -34,7 +34,7 @@ func WithAbstractAPIBlocking() AbstractAPIOptionFunc {
 // WithAbstractAPIBaseURL is used to set base url of abstract api service
 func WithAbstractAPIBaseURL(url *url.URL) AbstractAPIOptionFunc {
 	return func(opts *AbstractAPIOption) error {
-		if url == nil || url.Path == "" {
+		if url == nil || url.String() == "" {
 			return ErrEmptyBaseURL
 		}
 		opts.baseURL = url

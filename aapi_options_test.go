@@ -13,6 +13,9 @@ func Test_parseAbstractAPIOptions(t *testing.T) {
 	defURL, err := url.Parse(defaultAbstractAPIURL)
 	assert.NoError(t, err)
 
+	baseURL, err := url.Parse("https://baseUrl.com")
+	assert.NoError(t, err)
+
 	tests := []struct {
 		name            string
 		options         []AbstractAPIOptionFunc
@@ -32,12 +35,13 @@ func Test_parseAbstractAPIOptions(t *testing.T) {
 		{
 			name: "Should parse with custom options",
 			options: []AbstractAPIOptionFunc{
+				WithAbstractAPIBaseURL(baseURL),
 				WithAbstractAPIVersion("/v10"),
 				WithAbstractAPIBlocking(),
 				WithAbstractAPIRate(AbstractAPIBusiness),
 			},
 			expectedOptions: &AbstractAPIOption{
-				baseURL:    defURL,
+				baseURL:    baseURL,
 				apiVersion: "/v10",
 				blocking:   true,
 				rate:       AbstractAPIBusiness,

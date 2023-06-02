@@ -34,7 +34,7 @@ func WithHunterAPIBlocking() HunterAPIOptionFunc {
 // WithHunterAPIBaseURL is used to set base url of hunter api service
 func WithHunterAPIBaseURL(url *url.URL) HunterAPIOptionFunc {
 	return func(opts *HunterAPIOption) error {
-		if url == nil || url.Path == "" {
+		if url == nil || url.String() == "" {
 			return ErrEmptyBaseURL
 		}
 		opts.baseURL = url
