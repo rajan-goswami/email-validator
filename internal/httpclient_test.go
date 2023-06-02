@@ -63,7 +63,8 @@ func TestDoWithNoLimit(t *testing.T) {
 	// Start a local HTTP server
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		// Send response to be tested
-		rw.Write([]byte(`OK`))
+		_, err := rw.Write([]byte(`OK`))
+		assert.NoError(t, err)
 		rw.WriteHeader(http.StatusOK)
 	}))
 	// Close the server when test finishes
@@ -91,7 +92,8 @@ func TestDoWithLimit_NonBlocking(t *testing.T) {
 	// Start a local HTTP server
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		// Send response to be tested
-		rw.Write([]byte(`OK`))
+		_, err := rw.Write([]byte(`OK`))
+		assert.NoError(t, err)
 		rw.WriteHeader(http.StatusOK)
 	}))
 	// Close the server when test finishes
@@ -125,7 +127,8 @@ func TestDoWithLimit_Blocking(t *testing.T) {
 	// Start a local HTTP server
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		// Send response to be tested
-		rw.Write([]byte(`OK`))
+		_, err := rw.Write([]byte(`OK`))
+		assert.NoError(t, err)
 		rw.WriteHeader(http.StatusOK)
 	}))
 	// Close the server when test finishes
