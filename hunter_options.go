@@ -7,7 +7,6 @@ import (
 type HunterAPIOption struct {
 	baseURL    *url.URL
 	apiVersion string
-	apiSubPath string
 	rate       HunterRate
 	blocking   bool
 }
@@ -59,7 +58,9 @@ func ParseHunterAPIOptions(options ...HunterAPIOptionFunc) (*HunterAPIOption, er
 	}
 
 	for _, o := range options {
-		o(opts)
+		if err := o(opts); err != nil {
+			return nil, err
+		}
 	}
 
 	return opts, nil

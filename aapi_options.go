@@ -58,7 +58,9 @@ func ParseAbstractAPIOptions(options ...AbstractAPIOptionFunc) (*AbstractAPIOpti
 	}
 
 	for _, o := range options {
-		o(opts)
+		if err := o(opts); err != nil {
+			return nil, err
+		}
 	}
 
 	return opts, nil
