@@ -10,11 +10,12 @@ import (
 	"golang.org/x/time/rate"
 )
 
+// ErrorRateLimitExceeded is returned when api rate limit is hit by HTTPClient
 var ErrorRateLimitExceeded = fmt.Errorf("rate limit is exceeded")
 
 const (
-	DefaultInterval time.Duration = 0 * time.Second
-	DefaultLimit    int           = -1
+	defaultInterval time.Duration = 0 * time.Second
+	defaultLimit    int           = -1
 )
 
 // HTTPClient defines HTTP client with rate limiting capability
@@ -26,8 +27,8 @@ type HTTPClient struct {
 }
 
 // NewClient return http client with a rate limiter
-func NewClient(options ...OptionFunc) *HTTPClient {
-	opts := ParseOptions(options...)
+func NewClient(options ...func(*Option)) *HTTPClient {
+	opts := parseOptions(options...)
 	c := &HTTPClient{
 		client:      http.DefaultClient,
 		rateLimiter: rate.NewLimiter(rate.Every(opts.limitInterval), opts.limit),
@@ -36,6 +37,10 @@ func NewClient(options ...OptionFunc) *HTTPClient {
 	return c
 }
 
+// Do performs http request and returns response or error
+// It applies client-side rate limits on outgoing API calls, based on the configured rate.
+// If blocking is enabled and rate limit is reached, it will wait until rate limit interval ends while making api call.
+// Otherwise it returns ErrorRateLimitExceeded
 func (c *HTTPClient) Do(req *http.Request) (*http.Response, error) {
 	ctx := context.Background()
 

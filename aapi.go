@@ -49,7 +49,7 @@ func NewAbstractAPIClient(apiKey string, options ...AbstractAPIOptionFunc) (*Abs
 	}
 	u.Path = path.Join(u.Path, apiVersion)
 
-	clientOpts := []internal.OptionFunc{
+	clientOpts := []func(*internal.Option){
 		internal.WithLimit(opts.rate.Limit),
 		internal.WithLimitInterval(opts.rate.Interval),
 	}

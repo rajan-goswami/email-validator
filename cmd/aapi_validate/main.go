@@ -9,21 +9,21 @@ import (
 	emailvalidator "github.com/r-goswami/email-validator"
 )
 
-type CLI struct{}
+type cli struct{}
 
-func (cli *CLI) validateArgs() {
+func (cli *cli) validateArgs() {
 	if len(os.Args) < 2 {
 		cli.printUsage()
 		os.Exit(1)
 	}
 }
 
-func (cli *CLI) printUsage() {
+func (cli *cli) printUsage() {
 	fmt.Println("Usage:")
 	fmt.Println("  validate -apiKey API_KEY -email EMAIL - Validates if a given email address is valid")
 }
 
-func (cli *CLI) validate(apiKey string, email string) {
+func (cli *cli) validate(apiKey string, email string) {
 	validator, err := emailvalidator.NewAbstractAPIClient(apiKey)
 	if err != nil {
 		log.Panic(err)
@@ -41,7 +41,7 @@ func (cli *CLI) validate(apiKey string, email string) {
 	}
 }
 
-func (cli *CLI) Run() {
+func (cli *cli) Run() {
 	cli.validateArgs()
 
 	validateCmd := flag.NewFlagSet("validate", flag.ExitOnError)
@@ -71,6 +71,6 @@ func (cli *CLI) Run() {
 }
 
 func main() {
-	cli := CLI{}
+	cli := cli{}
 	cli.Run()
 }
