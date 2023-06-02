@@ -50,7 +50,7 @@ func NewHunterAPIClient(apiKey string, options ...HunterAPIOptionFunc) (*HunterA
 	}
 	u.Path = path.Join(u.Path, apiVersion)
 
-	clientOpts := []internal.OptionFunc{
+	clientOpts := []func(*internal.Option){
 		internal.WithLimit(opts.rate.Limit),
 		internal.WithLimitInterval(opts.rate.Interval),
 	}
