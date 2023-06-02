@@ -54,9 +54,13 @@ func WithHunterAPIVersion(version string) HunterAPIOptionFunc {
 }
 
 func parseHunterAPIOptions(options ...HunterAPIOptionFunc) (*HunterAPIOption, error) {
+	defAPIURL, _ := url.Parse(defaultHunterAPIURL)
+
 	opts := &HunterAPIOption{
-		rate:     HunterAPIRate,
-		blocking: false,
+		rate:       HunterAPIRate,
+		blocking:   false,
+		baseURL:    defAPIURL,
+		apiVersion: defaultHunterAPIVersion,
 	}
 
 	for _, o := range options {
