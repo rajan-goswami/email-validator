@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-    tags:
-      - v*
     branches:
       - main
   pull_request:
@@ -54,7 +52,7 @@ jobs:
           go-version: 1.19
       - name: Run tests
         run: go test $(go list ./... | grep -v /cmd/) -race -gcflags=-l -v  -coverprofile=coverage.txt -covermode=atomic -vet=off
-  
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:

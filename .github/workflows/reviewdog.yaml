@@ -10,6 +10,11 @@ jobs:
         with:
           go-version: 1.19
           fetch-depth: 0
+      - name: misspell
+        uses: reviewdog/action-misspell@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          locale: "US"
       - name: Run golangci-lint reviewdog
         uses: reviewdog/action-golangci-lint@v2
         with:
