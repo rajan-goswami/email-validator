@@ -6,12 +6,16 @@
 # email-validator
 Go library to verify email addresses through Email verification API provided by 3rd party services - abstractapi.com and hunter.io.
 
+
 ## Features
 
 - Completely native (no 3rd party module dependencies)
 - Client side rate limiting
 - Ability to change rate limits
- 
+
+---
+
+
 # How to use http clients
 
 ## abstract.com client
@@ -77,6 +81,8 @@ func main() {
 }
 
 ```
+
+---
 
 
 # How to check clients using commands
