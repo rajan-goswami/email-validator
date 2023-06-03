@@ -22,7 +22,7 @@ Go library to verify email addresses through Email verification API provided by 
 
 import (
     "fmt"
-	"log"
+    "log"
     "os"
 
     emailvalidator "github.com/r-goswami/email-validator"
@@ -31,20 +31,20 @@ import (
 func main() {
     apiKey :=  os.GetEnv("API_KEY")
     validator, err := emailvalidator.NewAbstractAPIClient(apiKey)
-	if err != nil {
-		log.Panic(err)
-	}
+    if err != nil {
+        log.Panic(err)
+    }
 
     email := "abc@xyz.com"
-	resp, err := validator.Validate(email)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+    resp, err := validator.Validate(email)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
 
-	if resp.IsValid() {
-		fmt.Printf("\n%s is a valid email\n", email)
-	}
+    if resp.IsValid() {
+        fmt.Printf("\n%s is a valid email\n", email)
+    }
 }
 
 ```
@@ -54,7 +54,7 @@ func main() {
 
 import (
     "fmt"
-	"log"
+    "log"
     "os"
 
     emailvalidator "github.com/r-goswami/email-validator"
@@ -63,20 +63,20 @@ import (
 func main() {
     apiKey :=  os.GetEnv("API_KEY")
     validator, err := emailvalidator.NewHunterAPIClient(apiKey)
-	if err != nil {
-		log.Panic(err)
-	}
+    if err != nil {
+        log.Panic(err)
+    }
 
     email := "abc@xyz.com"
-	resp, err := validator.Validate(email)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+    resp, err := validator.Validate(email)
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
 
-	if resp.IsValid() {
-		fmt.Printf("\n%s is a valid email\n", email)
-	}
+    if resp.IsValid() {
+        fmt.Printf("\n%s is a valid email\n", email)
+    }
 }
 
 ```
