@@ -1,0 +1,18 @@
+runner:
+  govet:
+    cmd: go vet $(go list ./...)
+    format: govet
+    level: warning
+  golint:
+    cmd: golint -set_exit_status ./...
+    errorformat:
+      - "%f:%l:%c: %m"
+    level: warning
+  gosec:
+    cmd: gosec -quiet -no-fail -fmt golint ./...
+    format: golint
+    level: warning
+  staticcheck:
+    cmd: staticcheck -fail none $(go list ./...)
+    errorformat:
+      - "%f:%l:%c: %m"
