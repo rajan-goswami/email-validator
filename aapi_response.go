@@ -40,3 +40,8 @@ type AAValidateEmailResp struct {
 func (resp *AAValidateEmailResp) IsValid() bool {
 	return resp.IsValidFormat.Value
 }
+
+// IsDeliverable checks if email is deliverable
+func (resp *AAValidateEmailResp) IsDeliverable() bool {
+	return resp.Deliverability == "DELIVERABLE"
+}
