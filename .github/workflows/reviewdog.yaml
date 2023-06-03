@@ -14,8 +14,10 @@ jobs:
         uses: reviewdog/action-golangci-lint@v2
         with:
           github_token: ${{ secrets.github_token }}
-      # run staticcheck
-      - uses: reviewdog/action-staticcheck@v1
+          # Exit with 1 when it find at least one finding.
+          fail_on_error: true
+      - name: Run staticcheck reviewdog
+        uses: reviewdog/action-staticcheck@v1
         with:
           github_token: ${{ secrets.github_token }}
           # Change reviewdog reporter if you need [github-pr-check,github-check,github-pr-review].
