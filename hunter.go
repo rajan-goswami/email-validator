@@ -34,21 +34,12 @@ func NewHunterAPIClient(apiKey string, options ...HunterAPIOptionFunc) (*HunterA
 		return nil, err
 	}
 
-	baseURL := defaultHunterAPIURL
-	apiVersion := defaultHunterAPIVersion
-
-	if opts.baseURL != nil {
-		baseURL = opts.baseURL.String()
-	}
-	if opts.apiVersion != "" {
-		apiVersion = opts.apiVersion
-	}
-
-	u, err := url.Parse(baseURL)
+	u, err := url.Parse(opts.baseURL.String())
 	if err != nil {
 		return nil, err
 	}
-	u.Path = path.Join(u.Path, apiVersion)
+
+	u.Path = path.Join(u.Path, opts.apiVersion)
 
 	clientOpts := []func(*internal.Option){
 		internal.WithLimit(opts.rate.Limit),
