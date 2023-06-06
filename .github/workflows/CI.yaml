@@ -46,7 +46,7 @@ jobs:
         with:
           version: v1.48.0
           skip-cache: true
-          args: --enable-all
+          # args: --enable-all
 
   test:
     name: Test
